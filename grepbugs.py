@@ -279,7 +279,7 @@ def local_scan(srcdir, repo='none', account='local_scan', project='none', defaul
 									# update database with new results_detail info
 									result_detail_id = str(uuid.uuid1())
 									code             = str(rr[1]).split(':', 1)
-									params           = [result_detail_id, result_id, rr[0], code[0], str(code[1]).strip()]
+									params           = [result_detail_id, result_id, rr[0], code[0], code[1].decode('utf-8').strip()]
 
 									if 'mysql' == gbconfig.get('database', 'database'):
 										mysqlcur.execute("INSERT INTO results_detail (result_detail_id, result_id, file, line, code) VALUES (%s, %s, %s, %s, %s);", params)
@@ -824,9 +824,9 @@ def html_report(scan_id):
 			tabs += "\n"
 		
 		html += '</html>'
-		o.write(html)
+		o.write(html.encode('utf-8'))
 		o.close()
-		t.write(tabs)
+		t.write(tabs.encode('utf-8'))
 		t.close()
 
 	if 'mysql' == gbconfig.get('database', 'database'):
